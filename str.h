@@ -5,3 +5,4 @@ struct str {
 
 struct str *mkstr(char *);
 int freestr(struct str *);
+char *cstr(struct str *);

@@ -10,13 +10,22 @@ struct str *mkstr(char *cstr){
 	}
 	int l = strlen(cstr);
 	s->l = l;
-	s->s = malloc(l+1);
+	s->s = malloc(l);
 	if(s->s == NULL){
 		ERR("mkstr char string alloc", 1);
 	}
-	s->s = memmove(s->s, cstr, s->l);
-	*(s->s+l) = 0; 
+	memmove(s->s, cstr, s->l);
 	return s;
+}
+
+char *cstr(struct str *s){
+	char *cs = malloc(s->l+1);
+	if(cs == NULL){
+		ERR("cstr char string alloc", 1);
+	}
+	memmove(cs, s->s, s->l);
+	*(cs+s->l) = 0;
+	return cs;
 }
 
 int freestr(struct str *str){
