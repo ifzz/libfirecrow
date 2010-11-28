@@ -9,22 +9,23 @@ struct str *mkstr(char *cstr){
 		ERR("mkstr struct str alloc", 1);
 	}
 	int l = strlen(cstr);
-	s->l = l;
+	s->c = l;
+	s->a = l;
 	s->s = malloc(l);
 	if(s->s == NULL){
 		ERR("mkstr char string alloc", 1);
 	}
-	memmove(s->s, cstr, s->l);
+	memmove(s->s, cstr, s->c);
 	return s;
 }
 
 char *cstr(struct str *s){
-	char *cs = malloc(s->l+1);
+	char *cs = malloc(s->c+1);
 	if(cs == NULL){
 		ERR("cstr char string alloc", 1);
 	}
-	memmove(cs, s->s, s->l);
-	*(cs+s->l) = 0;
+	memmove(cs, s->s, s->c);
+	*(cs+s->c) = 0;
 	return cs;
 }
 
