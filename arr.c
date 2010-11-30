@@ -3,7 +3,7 @@
 #include "arr.h"
 #include "err.h"
 
-/* arr = arr_alloc(); */
+/* arr = arr_alloc(amount); */
 struct arr *arr_alloc(int amount){
 	struct arr *a = (struct arr *) alloc_or_die(sizeof(struct arr), "arr_alloc allocating struct", 1);
 	a->c = 0;
