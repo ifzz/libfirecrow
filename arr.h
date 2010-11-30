@@ -3,10 +3,10 @@ struct arr {
 	char *v;/* content of the array */
 	int c;/* count of bytes filled with content  */
 	int a;/* allocated bytes for the content */
-}
+};
 
-/* arr = arr_alloc(); */
-struct arr *arr_alloc();
+/* arr = arr_alloc(start_amount); */
+struct arr *arr_alloc(int);
 
 /* size = arr_resize(arr, size); */
 int arr_resize(struct arr *, int);
@@ -29,10 +29,10 @@ struct uarr {
 	int c;/* count of bytes filled with content  */
 	int a;/* allocated bytes for the content */
 	int u;/* bytes per unit */
-}
+};
 
 /* item_i = uarr_nth(arr, i);*/
-uarr_nth(struct uarr *, int);
+int uarr_nth(struct uarr *, int);
 
 /* rest of uarr functions are the same as their respective
  arr functions, but arithmetic to get the byte address
