@@ -28,7 +28,9 @@ int arr_resize(struct arr *ap, int size){
 			sz *= 2;
 		}
 		/* reallocate content */
-		ap->v = realloc(ap->v, sz);
+		ap->v = die_if_null(realloc(ap->v, sz), 
+			"arr_resize allocating new memory", 1);
+	  ap->a = sz;	
 	}
 	return ap->a;
 }
