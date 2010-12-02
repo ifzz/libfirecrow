@@ -5,4 +5,4 @@
 
 int err(char *, int);
 
-int alloc_or_die(size_t, char *, int);
+void *die_if_null(void *, char *, int);
