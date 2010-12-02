@@ -1,5 +1,7 @@
 #define ERR err
 #define OK 0
+#define ERROR 1
+#define WARN 2
 
 #include <sys/types.h>
 

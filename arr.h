@@ -11,8 +11,8 @@ struct arr *arr_alloc(int);
 /* size = arr_resize(arr, size); */
 int arr_resize(struct arr *, int);
 
-/* index = arr_insert(arr, source, count, index); */
-int arr_insert(struct arr *, void *, int, int);
+/* index = arr_insert(arr, index, source, count); */
+int arr_insert(struct arr *, int, void *, int);
 
 /* result_size = arr_remove(arr, start, end, result);*/
 int arr_remove(struct arr *, int, int, void *);
