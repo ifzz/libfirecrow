@@ -1,4 +1,7 @@
 
+#define ARR_RESULT 1
+#define ARR_NORESULT 0
+
 struct arr {
 	char *v;/* content of the array */
 	int c;/* count of bytes filled with content  */
@@ -17,12 +20,12 @@ int arr_insert(struct arr *, int, void *, int);
 /* res = arr_remove(arr, start, end, result);
  * or arr_remove(arr, start, end, NULL); 
  */
-void *arr_remove(struct arr *, int, int, void **);
+struct arr *arr_remove(struct arr *, int, int, int flags);
 
 /* res = arr_slice(arr, start, end, result);
  * or arr_slice(arr, start, end, NULL);
  */
-void *arr_slice(struct arr *, int, int, void **);
+struct arr *arr_slice(struct arr *, int, int, int flags);
 
 /* unit specific array - holds multibyte values */
 struct uarr {

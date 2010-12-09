@@ -60,24 +60,24 @@ int arr_insert(struct arr *ap, int index, void *src, int count){
 /* result_size = arr_remove(arr, start, end, result);
  * or arr_remove(arr, start, end, NULL); 
  */
-void *arr_remove(struct arr *ap, int start, int end, void **rp){
+struct arr *arr_remove(struct arr *ap, int start, int end, int flags){
 	int sz = end-start;
 	int esz = ap->c-end;
-	printf("%d", sz);
+	struct arr *rp;
 	if(esz < 0){
 		err("index out of range", WARN);
 		return NULL;
 	}
-	if(rp != NULL){
-		*rp = malloc(sz);
-		memcpy(*rp, ap->v+start, sz);
+	if(flags & ARR_RESULT){
+		rp = arr_alloc(sz);
+		arr_insert(rp, 0, ap->v+start, sz);
 	}
 	if(esz != 0){
 		memmove(ap->v+start, ap->v+end, esz);
 	}
 	ap->c = start+esz;
-	if(rp != NULL) 
-		return *rp; 
+	if(flags & ARR_RESULT) 
+		return rp; 
 	else	
 		return NULL;
 }

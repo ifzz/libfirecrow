@@ -22,15 +22,15 @@ int main(){
 		*(a->v+(a->c++)) = *p;
 	}
 	write(1, a->v, a->c);
-
 	arr_insert(a, 7, "t", 1);
 	write(1, a->v, a->c);
-
-	arr_remove(a, 0, 4, NULL);
+	arr_remove(a, 0, 4, ARR_NORESULT);
 	write(1, a->v, a->c);
 
-	arr_remove(a, 3, 9, NULL);
+	struct arr *r = arr_remove(a, 3, 9, ARR_RESULT);
 	write(1, a->v, a->c);
+	write(1, r->v, r->c);
+	write(1, "\n", 1);
 
 	return 0;
 }
