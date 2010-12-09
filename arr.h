@@ -14,14 +14,15 @@ int arr_resize(struct arr *, int);
 /* index = arr_insert(arr, index, source, count); */
 int arr_insert(struct arr *, int, void *, int);
 
-/* result_size = arr_remove(arr, start, end, result);*/
-int arr_remove(struct arr *, int, int, void *);
+/* res = arr_remove(arr, start, end, result);
+ * or arr_remove(arr, start, end, NULL); 
+ */
+void *arr_remove(struct arr *, int, int, void **);
 
-/* result_size = arr_slice(arr, start, end, result);*/
-int arr_slice(struct arr *, int, int, void *);
-
-/* arr_size = arr_slice(arr, start, end);*/
-int arr_trim(struct arr *, int, int);
+/* res = arr_slice(arr, start, end, result);
+ * or arr_slice(arr, start, end, NULL);
+ */
+void *arr_slice(struct arr *, int, int, void **);
 
 /* unit specific array - holds multibyte values */
 struct uarr {
@@ -56,4 +57,3 @@ int uarr_resize(struct uarr *, int);
 int uarr_insert(struct uarr *, void *, int, int);
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);
-int uarr_trim(struct uarr *, int, int);

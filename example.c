@@ -5,12 +5,14 @@
 int main(){ 
 	struct arr *a = arr_alloc(4);
 
-	arr_insert(a, 0, "this:", 5);
+	arr_insert(a, 0, "this", 4);
+	write(1, "\"", 1);
+	write(1, a->v, a->c);
+	write(1, "\"", 1);
 
 	char s[] = "hi here is a string\n";
 	int i, l;
 	char *p;
-	printf("\nstarting size: %d\n", a->a);
 	for(p = s, l = sizeof(s); l--; p++){
 		write(1, p, 1);
 		if(a->c+1 > a->a){
@@ -18,10 +20,16 @@ int main(){
 			printf("\nresizing: %d\n", a->a);
 		}
 		*(a->v+(a->c++)) = *p;
-	} 
+	}
 	write(1, a->v, a->c);
 
-	 arr_insert(a, 8, "t", 1);
+	arr_insert(a, 7, "t", 1);
+	write(1, a->v, a->c);
+
+	arr_remove(a, 0, 4, NULL);
+	write(1, a->v, a->c);
+
+	arr_remove(a, 3, 9, NULL);
 	write(1, a->v, a->c);
 
 	return 0;

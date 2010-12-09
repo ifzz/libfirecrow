@@ -4,6 +4,8 @@
 #include "arr.h"
 #include "err.h"
 
+#include <stdio.h>
+
 /* arr = arr_alloc(amount); */
 struct arr *arr_alloc(int amount){
 	struct arr *a; 
@@ -22,6 +24,7 @@ struct arr *arr_alloc(int amount){
 }
 
 /* size = arr_resize(arr, size); */
+/* TODO: add downsize also if the system is larger */
 int arr_resize(struct arr *ap, int size){
 	int sz = ap->a;
 	if(sz < size){
@@ -53,3 +56,35 @@ int arr_insert(struct arr *ap, int index, void *src, int count){
 	ap->c = sz;
 	return index;
 }
+
+/* result_size = arr_remove(arr, start, end, result);
+ * or arr_remove(arr, start, end, NULL); 
+ */
+void *arr_remove(struct arr *ap, int start, int end, void **rp){
+	int sz = end-start;
+	int esz = ap->c-end;
+	printf("%d", sz);
+	if(esz < 0){
+		err("index out of range", WARN);
+		return NULL;
+	}
+	if(rp != NULL){
+		*rp = malloc(sz);
+		memcpy(*rp, ap->v+start, sz);
+	}
+	if(esz != 0){
+		memmove(ap->v+start, ap->v+end, esz);
+	}
+	ap->c = start+esz;
+	if(rp != NULL) 
+		return *rp; 
+	else	
+		return NULL;
+}
+
+/* result_size = arr_slice(arr, start, end, result);
+ * or arr_slice(arr, start, end, NULL);
+ */
+ /*
+void *arr_slice(struct arr *, int, int, void **);
+*/
