@@ -76,15 +76,31 @@ struct arr *arr_remove(struct arr *ap, int start, int end, int flags){
 		memmove(ap->v+start, ap->v+end, esz);
 	}
 	ap->c = start+esz;
-	if(flags & ARR_RESULT) 
+	if(flags & ARR_RESULT)
 		return rp; 
-	else	
+	else
 		return NULL;
 }
 
 /* result_size = arr_slice(arr, start, end, result);
  * or arr_slice(arr, start, end, NULL);
  */
- /*
-void *arr_slice(struct arr *, int, int, void **);
-*/
+struct arr *arr_slice(struct arr *ap, int start, int end, int flags){
+	int sz = end-start;
+	if(start+sz > ap->c){
+		err("index out of range", WARN);
+		return NULL;
+	}
+	struct arr *rp;
+	if(flags & ARR_RESULT){
+		rp = arr_alloc(sz);
+		arr_insert(rp, 0, ap->v+start, sz);
+		return rp;
+	}else{
+		if(sz != ap->c){
+			memmove(ap->v, ap->v+start, sz);
+			ap->c = sz;
+		}
+		return NULL;
+	}
+}

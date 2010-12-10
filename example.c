@@ -27,8 +27,15 @@ int main(){
 	arr_remove(a, 0, 4, ARR_NORESULT);
 	write(1, a->v, a->c);
 
-	struct arr *r = arr_remove(a, 3, 9, ARR_RESULT);
-	write(1, a->v, a->c);
+	struct arr *r = arr_remove(a, 3, 11, ARR_RESULT);
+	write(1, r->v, r->c);
+	write(1, "\n", 1);
+
+	struct arr *r2 = arr_slice(r, 0, 5, ARR_RESULT);
+	write(1, r2->v, r2->c);
+	write(1, "\n", 1);
+
+	arr_slice(r, 0, 2, ARR_NORESULT);
 	write(1, r->v, r->c);
 	write(1, "\n", 1);
 
