@@ -27,7 +27,8 @@ struct arr *arr_alloc(int amount){
 struct arr *arr_from_cstr(char *p){
 	struct arr *rp= arr_alloc(4);
 	int sz = 0;
-	while(*p++ != 0){
+	char *cp = p;
+	while(*cp++ != 0){
 		sz++;
 	}
 	arr_insert(rp, 0, p, sz);

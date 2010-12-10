@@ -39,5 +39,9 @@ int main(){
 	write(1, r->v, r->c);
 	write(1, "\n", 1);
 
+	struct arr *m = arr_from_cstr("a new string here");
+	write(1, m->v, m->c);
+	write(1, "\n", 1);
+
 	return 0;
 }
