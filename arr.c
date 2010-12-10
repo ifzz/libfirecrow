@@ -23,6 +23,17 @@ struct arr *arr_alloc(int amount){
 	return a;
 }
 
+/* arr = arr_alloc(string); */
+struct arr *arr_from_cstr(char *p){
+	struct arr *rp= arr_alloc(4);
+	int sz = 0;
+	while(*p++ != 0){
+		sz++;
+	}
+	arr_insert(rp, 0, p, sz);
+	return rp;
+}
+
 /* size = arr_resize(arr, size); */
 /* TODO: add downsize also if the system is larger */
 int arr_resize(struct arr *ap, int size){

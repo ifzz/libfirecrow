@@ -11,6 +11,9 @@ struct arr {
 /* arr = arr_alloc(start_amount); */
 struct arr *arr_alloc(int);
 
+/* arr = arr_alloc(string); */
+struct arr *arr_from_cstr(char *);
+
 /* size = arr_resize(arr, size); */
 int arr_resize(struct arr *, int);
 
