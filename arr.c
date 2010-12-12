@@ -49,8 +49,9 @@ struct arr *arr_from_cstr(char *p){
 /* size = arr_resize(arr, size); */
 /* TODO: add downsize also if the system is larger */
 int arr_resize(struct arr *ap, int size){
-	int sz = ap->a || 2;
+	int sz = ap->a;
 	if(sz < size){
+		if(sz <= 0) sz = 2;
 		while(sz < size){
 			sz *= 2;
 		}
