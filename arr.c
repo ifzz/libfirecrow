@@ -23,9 +23,20 @@ struct arr *arr_alloc(int amount){
 	return a;
 }
 
+/* arr_clear(arr) */
+void arr_clear(struct arr *ap){
+	ap->c = 0;
+}
+
+/* arr_free(arr) */
+void arr_free(struct arr *ap){
+	free(ap->v);
+	free(ap);
+}
+
 /* arr = arr_alloc(string); */
 struct arr *arr_from_cstr(char *p){
-	struct arr *rp= arr_alloc(4);
+	struct arr *rp=arr_alloc(4);
 	int sz = 0;
 	char *cp = p;
 	while(*cp++ != 0){

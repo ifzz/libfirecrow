@@ -1,5 +1,5 @@
 #!/bin/sh
-modules="err str firecrow"
+modules="arr err str firecrow"
 
 build(){
 	mkdir -p ./build;

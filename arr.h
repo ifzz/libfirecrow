@@ -11,6 +11,12 @@ struct arr {
 /* arr = arr_alloc(start_amount); */
 struct arr *arr_alloc(int);
 
+/* arr_clear(arr) */
+void arr_clear(struct arr *);
+
+/* arr_free(arr) */
+void arr_free(struct arr *);
+
 /* arr = arr_alloc(string); */
 struct arr *arr_from_cstr(char *);
 
