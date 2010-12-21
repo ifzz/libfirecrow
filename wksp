@@ -1,4 +1,4 @@
 #!/bin/sh
 e(){ vim example.c; }
-c(){ cc -o build/example err.c arr.c example.c; }
+c(){ ./build.sh; }
 d(){ ./build/example; }
