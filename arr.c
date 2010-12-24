@@ -73,7 +73,7 @@ int arr_insert(struct arr *ap, int index, void *src, int count){
 	if(sz > ap->a){
 		arr_resize(ap, sz);
 	}
-	if(index+count <= ap->c){
+	if(index <= ap->c){
 		memmove(ap->v+(index+count), ap->v+index, ap->c-index);
 	}
 	memcpy(ap->v+index, src, count);
