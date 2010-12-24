@@ -1,13 +1,27 @@
 #include "err.h"
 #include "arr.h"
 #include "io.h"
+#include <string.h>
 #include <stdio.h>
+
+void test_print_eq(struct arr *a, char *s){
+	write(1, a->v, a->c);
+	write(1, "=", 1);
+	write_cstr(1, s, 0);
+	write(1, "\n", 1);
+}
 
 void test(){
 	write_cstr(1, ">>> testing >>>\n", 0);
 	struct arr *a = arr_alloc(4);
 	arr_insert(a, 0, "this", 4);
-	write(1, a->v, a->c);
+	test_print_eq(a, "this");
+	arr_insert(a, a->c, " is", 3);
+	test_print_eq(a, "this is");
+	arr_insert(a, 0, "hi ", 3);
+	test_print_eq(a, "hi this is");
+	arr_insert(a, 0, "this is a big string being added. ", strlen("this is a big string being added. "));
+	test_print_eq(a, "this is a big string being added. hi this is");
 }
 
 int main(){ 
