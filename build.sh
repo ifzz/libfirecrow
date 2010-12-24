@@ -19,6 +19,9 @@ build(){
 	done
 	mv $tmph $hname 
 	ar -cvq ./build/libfirecrow.a ${objs} 
+
+	#build example 
+	cc -o ./build/example $objs example.c;
 }
 
 clean(){

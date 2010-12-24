@@ -1,6 +1,14 @@
 #include "err.h"
 #include "arr.h"
+#include "io.h"
 #include <stdio.h>
+
+void test(){
+	write_cstr(1, ">>> testing >>>\n", 0);
+	struct arr *a = arr_alloc(4);
+	arr_insert(a, 0, "this", 4);
+	write(1, a->v, a->c);
+}
 
 int main(){ 
 	struct arr *a = arr_alloc(4);
@@ -43,5 +51,6 @@ int main(){
 	write(1, m->v, m->c);
 	write(1, "\n", 1);
 
+	test();
 	return 0;
 }
