@@ -1,6 +1,6 @@
 #include "err.h"
 #include "arr.h"
-#include "io.h"
+#include "util.h"
 #include <string.h>
 #include <stdio.h>
 

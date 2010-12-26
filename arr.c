@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
-#include <stdio.h>
 #include "arr.h"
 #include "err.h"
 
@@ -37,25 +36,6 @@ void arr_clear(struct arr *ap){
 void arr_free(struct arr *ap){
 	free(ap->v);
 	free(ap);
-}
-
-/* arr = arr_alloc(string); */
-struct arr *arr_from_cstr(char *p){
-	struct arr *rp=arr_alloc(4);
-	int sz = 0;
-	char *cp = p;
-	while(*cp++ != 0){
-		sz++;
-	}
-	arr_insert(rp, 0, p, sz);
-	return rp;
-}
-
-int arr_append_int_str(struct arr *a, int i){
-	char buff[32];
-	int r = snprintf(buff, 32, "%d", i);
-	arr_insert(a, a->c, &buff, r);
-	return a->c; 
 }
 
 /* size = arr_resize(arr, size); */

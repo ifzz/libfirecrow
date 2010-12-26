@@ -1,5 +1,5 @@
 #!/bin/sh
-modules="arr err io"
+modules="arr err util"
 
 build(){
 	mkdir -p ./build;
@@ -21,7 +21,7 @@ build(){
 	ar -cvq ./build/libfirecrow.a ${objs} 
 
 	#build example 
-	cc -o ./build/example $objs example.c;
+	cc -o ./build/test $objs test.c;
 }
 
 clean(){
