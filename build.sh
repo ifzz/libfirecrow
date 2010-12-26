@@ -20,7 +20,7 @@ build(){
 	mv $tmph $hname 
 	ar -cvq ./build/libfirecrow.a ${objs} 
 
-	#build example 
+	#build test 
 	cc -o ./build/test $objs test.c;
 }
 

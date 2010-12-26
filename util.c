@@ -22,7 +22,7 @@ int arr_append_int_str(struct arr *a, int i){
 	return a->c; 
 }
 
-int append_cstr(struct arr *a, char *p){
+int arr_append_cstr(struct arr *a, char *p){
 	arr_insert(a, a->c, p, strlen(p));
 	return a->c;
 }

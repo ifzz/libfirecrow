@@ -5,10 +5,28 @@
 #include <stdio.h>
 
 void test_print_eq(struct arr *a, char *s){
-	write(1, a->v, a->c);
-	write(1, "=", 1);
-	write_cstr(1, s);
-	write(1, "\n", 1);
+	struct arr *msg = arr_alloc(4);
+	int r;
+	if((r = str_eq(a->v, s, a->c)) == 0){
+		arr_insert(msg, msg->c, ".", 1);
+		write(1, msg->v, msg->c);
+	}else{
+		arr_append_cstr(msg, "mismatch:");
+		arr_append_int_str(msg, r);
+		arr_append_cstr(msg, ":");
+		write(1, msg->v, msg->c);
+		write(1, a->v, a->c);
+	}
+}
+
+int str_eq(char *a, char *b, int l){
+	int i = 0;
+	while(l--){
+		if(*a++ != *b++)
+			return i;
+		i++;
+	}
+	return 0;
 }
 
 void test(){
@@ -29,6 +47,7 @@ void test(){
 	test_print_eq(b, "starting:3");
 	arr_append_int_str(b, 40012);
 	test_print_eq(b, "starting:340012");
+	write(1, "\n", 1);
 }
 
 int main(){ 
