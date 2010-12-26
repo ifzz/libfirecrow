@@ -45,3 +45,9 @@ int write_cstr(int fd, char *cstr){
 	return r;
 }
 
+int write_int(int fd, int i){
+	char buff[32];
+	int r = snprintf(buff, 32, "%d", i);
+	write(fd, buff, r);
+}
+

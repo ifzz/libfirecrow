@@ -7,3 +7,4 @@ int arr_append_cstr(struct arr *a, char *p);
  * bytes_written = write_cstr(fd, cstr);
  */
 int write_cstr(int, char *);
+int write_int(int fd, int i);
