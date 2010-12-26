@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
+#include <stdio.h>
 #include "arr.h"
 #include "err.h"
 
@@ -48,6 +49,13 @@ struct arr *arr_from_cstr(char *p){
 	}
 	arr_insert(rp, 0, p, sz);
 	return rp;
+}
+
+int arr_append_int_str(struct arr *a, int i){
+	char buff[32];
+	int r = snprintf(buff, 32, "%d", i);
+	arr_insert(a, a->c, &buff, r);
+	return a->c; 
 }
 
 /* size = arr_resize(arr, size); */

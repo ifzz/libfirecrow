@@ -22,6 +22,13 @@ void test(){
 	test_print_eq(a, "hi this is");
 	arr_insert(a, 0, "this is a big string being added. ", strlen("this is a big string being added. "));
 	test_print_eq(a, "this is a big string being added. hi this is");
+	struct arr *b = arr_alloc(4);
+	arr_insert(b, 0, "starting:", strlen("starting:"));
+	test_print_eq(b, "starting:");
+	arr_append_int_str(b, 3);
+	test_print_eq(b, "starting:3");
+	arr_append_int_str(b, 40012);
+	test_print_eq(b, "starting:340012");
 }
 
 int main(){ 
