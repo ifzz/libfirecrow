@@ -7,12 +7,12 @@
 void test_print_eq(struct arr *a, char *s){
 	write(1, a->v, a->c);
 	write(1, "=", 1);
-	write_cstr(1, s, 0);
+	write_cstr(1, s);
 	write(1, "\n", 1);
 }
 
 void test(){
-	write_cstr(1, ">>> testing >>>\n", 0);
+	write_cstr(1, ">>> testing >>>\n");
 	struct arr *a = arr_alloc(4);
 	arr_insert(a, 0, "this", 4);
 	test_print_eq(a, "this");

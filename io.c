@@ -1,10 +1,10 @@
 #include <unistd.h>
 
-int write_cstr(int fd, char *cstr, int chunk_size){
+int write_cstr(int fd, char *cstr){
 	char *p, *seg;
 	p = seg = cstr;
 	int i = 0, r = 0;
-	if(chunk_size == 0) chunk_size = 16;  
+	int chunk_size = 16;  
 	while(*(p++) != '\0'){
 		if(++i >= chunk_size){
 			r += write(fd, seg, i); 

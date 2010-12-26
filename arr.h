@@ -64,7 +64,7 @@ int uarr_nth(struct uarr *, int);
 	 char *c = &(x.v+5);
  
 */
-struct uarr *uarr_alloc();
+struct uarr *uarr_alloc(int, int);
 int uarr_resize(struct uarr *, int);
 int uarr_insert(struct uarr *, void *, int, int);
 int uarr_remove(struct uarr *, int, int, void *);

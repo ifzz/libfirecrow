@@ -6,11 +6,7 @@
 
 #include <stdio.h>
 
-/* arr = arr_alloc(amount); */
-struct arr *arr_alloc(int amount){
-	struct arr *a; 
-	a = (struct arr *) die_if_null(malloc(sizeof(struct arr)), 
-		"arr_alloc allocating struct", ERROR);
+void arr_init__(struct arr *a, int amount){
 	a->c = 0;
 	if(amount > 0){
 		char *v = (char *) die_if_null(malloc((size_t) amount), 
@@ -20,6 +16,14 @@ struct arr *arr_alloc(int amount){
 	}else{
 		a->a = 0;
 	}
+}
+
+/* arr = arr_alloc(amount); */
+struct arr *arr_alloc(int amount){
+	struct arr *a; 
+	a = (struct arr *) die_if_null(malloc(sizeof(struct arr)), 
+		"arr_alloc allocating struct", ERROR);
+  arr_init__(a, amount);	
 	return a;
 }
 
@@ -127,4 +131,13 @@ struct arr *arr_slice(struct arr *ap, int start, int end, int flags){
 		}
 		return NULL;
 	}
+}
+
+struct uarr *uarr_alloc(int size, int unit_size){
+	struct uarr *a; 
+	a = (struct uarr *) die_if_null(malloc(sizeof(struct uarr)), 
+		"arr_alloc allocating struct", ERROR);
+  arr_init__((struct arr *)a, size*unit_size);
+  a->u = unit_size;
+	return a;
 }
