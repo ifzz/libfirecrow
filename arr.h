@@ -3,9 +3,9 @@
 #define ARR_NORESULT 0
 
 struct arr {
-	char *v;/* content of the array */
-	int c;/* count of bytes filled with content  */
-	int a;/* allocated bytes for the content */
+  char *v;/* content of the array */
+  int c;/* count of bytes filled with content  */
+  int a;/* allocated bytes for the content */
 };
 
 /* arr = arr_alloc(start_amount); */
@@ -38,10 +38,10 @@ struct arr *arr_slice(struct arr *, int, int, int flags);
 
 /* unit specific array - holds multibyte values */
 struct uarr {
-	char *v;/* content of the array */
-	int c;/* count of bytes filled with content  */
-	int a;/* allocated bytes for the content */
-	int u;/* bytes per unit */
+  char *v;/* content of the array */
+  int c;/* count of bytes filled with content  */
+  int a;/* allocated bytes for the content */
+  int u;/* bytes per unit */
 };
 
 /* item_i = uarr_nth(arr, i);*/
@@ -53,15 +53,15 @@ int uarr_nth(struct uarr *, int);
 
  e.g.
 
-	 struct uarr x = {"aabbccddee", 10, 10, 2};
-	 char *c = uarr_nth(&x, 3);
-	 write(1, c, 2);// writes 'cc'
+   struct uarr x = {"aabbccddee", 10, 10, 2};
+   char *c = uarr_nth(&x, 3);
+   write(1, c, 2);// writes 'cc'
 
  wheras with regular uarr your would pass in the absolute
  address 5 instead of 3 to get a pointer to 'cc' in
  the above string:
 
-	 char *c = &(x.v+5);
+   char *c = &(x.v+5);
  
 */
 struct uarr *uarr_alloc(int, int);
