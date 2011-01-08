@@ -51,7 +51,33 @@ void test(){
 }
 
 void test_uarr(){
-  struct uarr *p = uarr_alloc(4, sizeof(void *));
+  struct arr *msg = arr_alloc(16);
+  ;
+  struct uarr *p = uarr_alloc(4, sizeof(int));
+  int iarr[] = {1,2,3,4};
+  uarr_insert(p, uarr_count(p), &iarr[0], 1);
+  write_cstr(1, "count is: ");
+  write_int(1, p->c);
+  uarr_insert(p, uarr_count(p), &iarr[1], 1);
+  write_cstr(1, "count is: ");
+  write_int(1, p->c);
+  uarr_insert(p, uarr_count(p), &iarr[2], 1);
+  write_cstr(1, "count is: ");
+  write_int(1, p->c);
+  uarr_insert(p, uarr_count(p), &iarr[3], 1);
+  write_cstr(1, "count is: ");
+  write_int(1, p->c);
+  /*
+  int *ip = (int *)p->v;
+  int l = p->c;
+  while(l--){
+    arr_append_int_str(msg, *ip);
+    arr_insert(msg, msg->c, ",", 1);
+    ip++;
+  }
+  write(1, msg->v, msg->c);
+  */
+  arr_free(msg);
   uarr_free(p);
 }
 

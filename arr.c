@@ -58,6 +58,7 @@ int arr_resize(struct arr *ap, int size){
 /* index = arr_insert(arr, source, count, index); */
 int arr_insert(struct arr *ap, int index, void *src, int count){
   if(index > ap->c){
+    write_int(1, index);
     err("index out of range", WARN);
     return -1;
   }
