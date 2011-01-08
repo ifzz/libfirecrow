@@ -30,7 +30,7 @@ int str_eq(char *a, char *b, int l){
 }
 
 void test(){
-  write_cstr(1, ">>> testing >>>\n");
+  write_cstr(1, ">>> test >>>\n");
   struct arr *a = arr_alloc(4);
   arr_insert(a, 0, "this", 4);
   test_print_eq(a, "this");
@@ -47,38 +47,34 @@ void test(){
   test_print_eq(b, "starting:3");
   arr_append_int_str(b, 40012);
   test_print_eq(b, "starting:340012");
+  struct arr *c = arr_alloc(4);
+  arr_append(c, "h");
+  arr_append(c, "i");
+  test_print_eq(c, "hi");
   write(1, "\n", 1);
 }
 
 void test_uarr(){
+  write_cstr(1, ">>> test_uarr >>>\n");
   struct arr *msg = arr_alloc(16);
   ;
   struct uarr *p = uarr_alloc(4, sizeof(int));
   int iarr[] = {1,2,3,4};
   uarr_insert(p, uarr_count(p), &iarr[0], 1);
-  write_cstr(1, "count is: ");
-  write_int(1, p->c);
   uarr_insert(p, uarr_count(p), &iarr[1], 1);
-  write_cstr(1, "count is: ");
-  write_int(1, p->c);
   uarr_insert(p, uarr_count(p), &iarr[2], 1);
-  write_cstr(1, "count is: ");
-  write_int(1, p->c);
   uarr_insert(p, uarr_count(p), &iarr[3], 1);
-  write_cstr(1, "count is: ");
-  write_int(1, p->c);
-  /*
   int *ip = (int *)p->v;
-  int l = p->c;
+  int l = uarr_count(p);
   while(l--){
     arr_append_int_str(msg, *ip);
     arr_insert(msg, msg->c, ",", 1);
     ip++;
   }
-  write(1, msg->v, msg->c);
-  */
+  test_print_eq(msg, "1,2,3,4,");
   arr_free(msg);
   uarr_free(p);
+  write(1, "\n", 1);
 }
 
 int main(){ 
