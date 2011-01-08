@@ -65,7 +65,7 @@ int uarr_nth(struct uarr *, int);
  
 */
 struct uarr *uarr_alloc(int, int);
-int uarr_resize(struct uarr *, int);
-int uarr_insert(struct uarr *, void *, int, int);
+#define uarr_free(a) arr_free((struct arr *)a)
+#define uarr_insert(arr, index, src, count) arr_insert(arr, index*arr->u, src, count*arr->u)
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);

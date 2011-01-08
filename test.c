@@ -50,6 +50,11 @@ void test(){
   write(1, "\n", 1);
 }
 
+void test_uarr(){
+  struct uarr *p = uarr_alloc(4, sizeof(void *));
+  uarr_free(p);
+}
+
 int main(){ 
   struct arr *a = arr_alloc(4);
 
@@ -92,5 +97,6 @@ int main(){
   write(1, "\n", 1);
 
   test();
+  test_uarr();
   return 0;
 }
