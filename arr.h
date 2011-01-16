@@ -70,6 +70,6 @@ struct uarr *uarr_alloc(int, int);
 #define uarr_free(a) arr_free((struct arr *)a)
 #define uarr_insert(a, index, src, count) arr_insert((struct arr *)a, index*a->u, src, count*a->u)
 #define uarr_count(a)  (a->c/a->u)
-#define uarr_append(a, src) arr_insert(a, a->c, src, a->u) 
+#define uarr_append(a, src) uarr_insert(a, a->c, src, a->u) 
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);
