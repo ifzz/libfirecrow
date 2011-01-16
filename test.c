@@ -62,8 +62,8 @@ void test_uarr(){
   int iarr[] = {1,2,3,4};
   uarr_insert(p, uarr_count(p), &iarr[0], 1);
   uarr_insert(p, uarr_count(p), &iarr[1], 1);
-  uarr_insert(p, uarr_count(p), &iarr[2], 1);
-  uarr_insert(p, uarr_count(p), &iarr[3], 1);
+  uarr_append(p, &iarr[2]);
+  uarr_append(p, &iarr[3]);
   int *ip = (int *)p->v;
   int l = uarr_count(p);
   while(l--){
