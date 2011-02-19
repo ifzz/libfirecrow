@@ -69,7 +69,6 @@ struct uarr *uarr_alloc(int, int);
 #define uarr_count(a)  (a->c/a->u)
 #define uarr_append(a, src) (arr_insert((struct arr *)a, a->c, src, a->u))
 #define uarr_nth(a, index) (a->v+(index*a->u))
-#define uarr_init(a, size, unit)  (arr_init__(a, (size*unit)); a->u = unit)
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);
 
