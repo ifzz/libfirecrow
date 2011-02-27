@@ -55,8 +55,7 @@ int arr_resize(struct arr *ap, int size){
   return ap->a;
 }
 
-/* index = arr_insert(arr, source, count, index); */
-int arr_insert(struct arr *ap, int index, void *src, int count){
+int arr_reserve__(struct arr *ap, int index, int count){
   if(index > ap->c){
     write_int(1, index);
     err("index out of range", WARN);
@@ -69,8 +68,23 @@ int arr_insert(struct arr *ap, int index, void *src, int count){
   if(index <= ap->c){
     memmove(ap->v+(index+count), ap->v+index, ap->c-index);
   }
-  memcpy(ap->v+index, src, count);
   ap->c = sz;
+}
+
+/* reserve space but don't copy anything into it */
+void *arr_reserve(struct arr *ap, int index, int count){
+  if(arr_reserve__(ap, index, count) < 0){
+    return NULL;
+  }
+  return ap->v+index;
+}
+
+/* index = arr_insert(arr, source, count, index); */
+int arr_insert(struct arr *ap, int index, void *src, int count){
+  if(arr_reserve__(ap, index, count) < 0){
+    return -1;
+  }
+  memcpy(ap->v+index, src, count);
   return index;
 }
 

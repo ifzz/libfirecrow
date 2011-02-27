@@ -26,7 +26,12 @@ int arr_resize(struct arr *, int);
 /* index = arr_insert(arr, index, source, count); */
 int arr_insert(struct arr *, int, void *, int);
 
+/* reserves a space but does not copy anything */
+void *arr_reserve(struct arr *, int, int);
+
 #define arr_append(a, src) arr_insert(a, a->c, src, 1) 
+
+#define arr_reserve_add(a) arr_reserve(a, a->c, src, 1) 
 
 /* res = arr_remove(arr, start, end, result);
  * or arr_remove(arr, start, end, NULL); 
@@ -67,8 +72,10 @@ struct uarr *uarr_alloc(int, int);
 #define uarr_free(a) (arr_free((struct arr *)a))
 #define uarr_insert(a, index, src, count) (arr_insert((struct arr *)a, index*a->u, src, count*a->u))
 #define uarr_count(a)  (a->c/a->u)
-#define uarr_append(a, src) (arr_insert((struct arr *)a, a->c, src, a->u))
+#define uarr_append(a, src) (arr_insert((struct arr *)a, (a)->c, (src), (a)->u))
 #define uarr_nth(a, index) (a->v+(index*a->u))
+#define uarr_reserve(a, idx, cnt) arr_reserve((struct arr *)a, idx*a->u, cnt*a->u)
+#define uarr_reserve_add(a) arr_reserve((struct arr *)a, a->c, a->u)
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);
 
