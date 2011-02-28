@@ -79,7 +79,6 @@ void *arr_reserve(struct arr *ap, int index, int count){
   return ap->v+index;
 }
 
-/* index = arr_insert(arr, source, count, index); */
 int arr_insert(struct arr *ap, int index, void *src, int count){
   if(arr_reserve__(ap, index, count) < 0){
     return -1;
