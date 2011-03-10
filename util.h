@@ -8,3 +8,17 @@ int arr_append_cstr(struct arr *a, char *p);
  */
 int write_cstr(int, char *);
 int write_int(int fd, int i);
+
+#define SP_CHILD (uint32_t)1
+#define SP_PARENT (uint32_t)2 
+/* subproc */
+struct subproc {
+   pid_t pid;
+   int in;
+   int out;
+   int err;
+   struct uarr *arg;/* char ** */
+   uint32_t flags;
+};
+
+int fork_wpipes(char **argv, struct subproc *sp);
