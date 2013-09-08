@@ -1,8 +1,10 @@
+#include <string.h>
+#include <stdio.h>
+#include <sys/types.h>
 #include "err.h"
 #include "arr.h"
 #include "util.h"
-#include <string.h>
-#include <stdio.h>
+#include "table.h"
 
 int test_print_eq(struct arr *a, char *s, char *title){
   struct arr *msg = arr_alloc(4);
@@ -12,11 +14,13 @@ int test_print_eq(struct arr *a, char *s, char *title){
     write(1, msg->v, msg->c);
     return 0;
   }else{
+		/*
     arr_append_cstr(msg, "fail - ");
     arr_append_cstr(msg, title);
     arr_append_cstr(msg, ":");
     arr_append_int_str(msg, r);
     arr_append_cstr(msg, ":");
+		*/
     write(1, msg->v, msg->c);
     write(1, a->v, a->c);
     return 123;
@@ -131,9 +135,30 @@ int test_uarr(){
   return ret;
 }
 
+int test_table(){
+  write_cstr(1, ">>> table >>>\n");
+	struct table *tbl;
+	tbl = table_alloc();
+	int hash = 0;
+	hash = hash_key(tbl, "hi");
+	printf("result hi %d\n", hash);
+	hash = hash_key(tbl, "hello");
+	printf("result hello %d\n", hash);
+	hash = hash_key(tbl, "denial");
+	printf("result denial %d\n", hash);
+	hash = hash_key(tbl, "I was a donkey once upon a time");
+	printf("result I was a donkey once upon a time %d\n", hash);
+	hash = hash_key(tbl, "dominence");
+	printf("result what's dominence %d\n", hash);
+	hash = hash_key(tbl, "power up it's drinking time");
+	printf("result power up it's drinking time %d\n", hash);
+	return 0;
+}
+
 int main(){ 
   int ret = 0;
   /*ret |= test();*/
   ret |= test_uarr();
+  ret |= test_table();
   return ret;
 }

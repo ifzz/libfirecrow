@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "arr.h"
+#include "util.h"
 
 /* arr = arr_alloc(string); */
 struct arr *arr_from_cstr(char *p){
@@ -51,8 +52,9 @@ int write_int(int fd, int i){
   write(fd, buff, r);
 }
 
+/*
 extern int fork_wpipes(char **argv, struct subproc *sp){
-  /* open pipes */
+  / * open pipes * /
   int pid, fds[3][2];
   ERR_IF_LZ( pipe( fds[0] ), "error opening stdin pipe" );
   ERR_IF_LZ( pipe( fds[1] ), "error opening stdout pipe" );
@@ -84,4 +86,5 @@ extern int fork_wpipes(char **argv, struct subproc *sp){
     return 0;
   }
 }
+*/
 

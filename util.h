@@ -18,7 +18,7 @@ struct subproc {
    int out;
    int err;
    struct uarr *arg;/* char ** */
-   uint32_t flags;
+   int flags;
 };
 
 int fork_wpipes(char **argv, struct subproc *sp);

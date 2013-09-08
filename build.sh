@@ -1,5 +1,5 @@
 #!/bin/sh
-modules="arr err util"
+modules="arr err util table"
 
 build(){
   mkdir -p ./build;
@@ -9,12 +9,14 @@ build(){
   echo "/* "$(date +%F)" */" > $tmph;
   objs="";
   for m in $modules; do
+		header=''
+		echo ">>> compiling: $m >>>"
     if [ -f ${m}.h ]; then
       echo -e "\n/* ==== ${m} ==== */\n\n" >> $tmph;
       cat ${m}.h >> $tmph; 
     fi
     mpath="./build/objects/${m}.o"
-    cc -c -o ${mpath}  ${m}.c;
+    cc -c -o ${mpath} ${m}.c;
     objs=${objs}" "${mpath}
   done
   mv $tmph $hname 

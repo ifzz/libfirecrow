@@ -1,37 +1,25 @@
-
 #define ARR_RESULT 1
 #define ARR_NORESULT 0
 
 struct arr {
   char *v;/* content of the array */
+	char *orig; /* original pointer, only necessary with pop */
   int c;/* count of bytes filled with content  */
   int a;/* allocated bytes for the content */
 };
 
-/* arr = arr_alloc(start_amount); */
 struct arr *arr_alloc(int);
 
-/* arr_clear(arr) */
 void arr_clear(struct arr *);
 
-/* arr_free(arr) */
 void arr_free(struct arr *);
 
-/* arr = arr_alloc(string); */
-struct arr *arr_from_cstr(char *);
-
-/* size = arr_resize(arr, size); */
-int arr_resize(struct arr *, int);
+static int arr_resize(struct arr *, int);
 
 /* index = arr_insert(arr, index, source, count); */
 int arr_insert(struct arr *, int, void *, int);
 
-/* reserves a space but does not copy anything */
-void *arr_reserve(struct arr *, int, int);
-
 #define arr_append(a, src) arr_insert(a, a->c, src, 1) 
-
-#define arr_reserve_add(a) arr_reserve(a, a->c, src, 1) 
 
 /* res = arr_remove(arr, start, end, result);
  * or arr_remove(arr, start, end, NULL); 
@@ -74,9 +62,6 @@ struct uarr *uarr_alloc(int, int);
 #define uarr_count(a)  (a->c/a->u)
 #define uarr_append(a, src) (arr_insert((struct arr *)a, (a)->c, (src), (a)->u))
 #define uarr_nth(a, index) (a->v+(index*a->u))
-#define uarr_reserve(a, idx, cnt) arr_reserve((struct arr *)a, idx*a->u, cnt*a->u)
-#define uarr_reserve_add(a) arr_reserve((struct arr *)a, a->c, a->u)
 int uarr_remove(struct uarr *, int, int, void *);
 int uarr_slice(struct uarr *, int, int, void *);
-
 
