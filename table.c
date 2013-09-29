@@ -21,7 +21,7 @@ int hash_key(struct table *tbl, char *key){
 struct table *table_alloc(){
 	struct table *tbl;
 	tbl = (struct table *) malloc(sizeof(struct table));
-	tbl->slots = (struct table_item*) malloc(sizeof(int) * START_LEVEL_SIZE);
+	tbl->slots = (struct table_item*) malloc(sizeof(struct table_item *)* START_LEVEL_SIZE);
 	tbl->level = 1;
 }
 
@@ -31,7 +31,19 @@ void table_free(struct table *tbl){
 }
 
 void table_add(struct table *tbl, char *key, void *item){
-	;
+	struct table_item *new_item = (struct table_item *) malloc(sizeof(struct table_item));
+	new_item->char_key = key;
+	new_item->int_key = hash_key(tbl, key);
+	new_item->content = item;
+
+	struct table_item *start = (tbl->slots+new_item->int_key);
+	if(start == NULL){
+		(tbl->slots+new_item->int_key) = new_item;
+	}
+	while(start->next != NULL){
+		start = start->next;
+	}
+	start->next = new_item;
 }
 /*
 void *table_get(struct table *tbl, void *key);
