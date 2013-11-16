@@ -1,5 +1,6 @@
 #include "table.h"
 
+/* todo: add level argumnet to this */
 int hash_key(struct table *tbl, char *key){
 	int pre_key = 0;	
 	int hash_num = START_LEVEL_SIZE;
@@ -22,6 +23,7 @@ struct table *table_alloc(){
 	struct table *tbl;
 	tbl = (struct table *) malloc(sizeof(struct table));
 	tbl->slots = (struct table_item*) malloc(sizeof(struct table_item *)* START_LEVEL_SIZE);
+	tbl->size = 0;
 	tbl->level = 1;
 }
 
@@ -32,19 +34,36 @@ void table_free(struct table *tbl){
 
 void table_add(struct table *tbl, char *key, void *item){
 	struct table_item *new_item = (struct table_item *) malloc(sizeof(struct table_item));
-	new_item->char_key = key;
-	new_item->int_key = hash_key(tbl, key);
+	new_item->key_val = key;
+	new_item->bucket_key = hash_key(tbl, key);
 	new_item->content = item;
 
-	struct table_item *start = (tbl->slots+new_item->int_key);
+	struct table_item *start = (tbl->slots+new_item->bucket_key);
 	if(start == NULL){
-		(tbl->slots+new_item->int_key) = new_item;
+		start += new_item->bucket_key;
+		start = new_item;
+		tbl->size++;
+	}else{
+		while(start->next != NULL){
+			start = start->next;
+		}
+		start->next = new_item;
+		tbl->size++;
 	}
-	while(start->next != NULL){
-		start = start->next;
-	}
-	start->next = new_item;
 }
+
+#ifdef DEBUG 
+void table_print_debug(struct table *tbl, FILE *stream){
+	fprintf(stream, "<table p:%p size:%lu level:%d >\n", tbl, tbl->size, tbl->level);
+	/* todo: add slots taken/available and total slot size */
+
+	/* table data */
+		/* climb slots */
+		/* climb to the end of each slot */
+		/* present data about how many queries it takes to get to each item */
+
+}
+#endif
 /*
 void *table_get(struct table *tbl, void *key);
 void *table_remove(struct table *tbl, void *key);

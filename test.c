@@ -152,6 +152,9 @@ int test_table(){
 	printf("result what's dominence %d\n", hash);
 	hash = hash_key(tbl, "power up it's drinking time");
 	printf("result power up it's drinking time %d\n", hash);
+
+	table_print_debug(tbl, stdout);
+
 	return 0;
 }
 

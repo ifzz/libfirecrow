@@ -16,7 +16,7 @@ build(){
       cat ${m}.h >> $tmph; 
     fi
     mpath="./build/objects/${m}.o"
-    cc -c -o ${mpath} ${m}.c;
+    cc -c -o ${mpath} ${m}.c -DDEBUG;
     objs=${objs}" "${mpath}
   done
   mv $tmph $hname 

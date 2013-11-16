@@ -10,8 +10,8 @@ struct table {
 
 struct table_item {
 	void *content;
-	char *char_key;
-	int int_key;
+	char *key_val;
+	size_t bucket_key;
 	struct table_item *next;
 };
 
@@ -23,3 +23,7 @@ void *table_get(struct table *tbl, char *key);
 void *table_remove(struct table *tbl, void *key);
 int hash_key(struct table *tbl, char *key);
 void table_resize(struct table *tbl, int size);
+
+#ifdef DEBUG
+void *print_table_debug(struct table *tbl, FILE *stream);
+#endif
