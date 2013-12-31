@@ -30,7 +30,6 @@ struct table *table_alloc(){
 	tbl->slots = (struct table_item **) malloc(sizeof(struct table_item *)* slots_num);
 	tbl->size = 0;
 	tbl->level = 1;
-	tbl->null_obj = (struct table_item *) malloc(sizeof(struct table_item));
 
 	size_t i;
 	struct table_item **slot = malloc(sizeof(struct table_item **));
@@ -39,7 +38,7 @@ struct table *table_alloc(){
 	struct table_item **slots = malloc(sizeof(struct table_item **));
 	for(i=0; i < slots_num; i++){
 		slot = tbl->slots+i;
-		*slot = tbl->null_obj;
+		*slot = NULL;
 	}
 	/*
 	free(slot);
@@ -58,11 +57,12 @@ void table_add(struct table *tbl, char *key, char *item){
 	new_item->key_val = key;
 	new_item->bucket_key = hash_key(tbl, key);
 	new_item->content = item;
+	new_item->next = NULL;
 
 	printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
 	struct table_item **start_dp = tbl->slots+new_item->bucket_key;
 	struct table_item *start = *start_dp;
-	if(start == tbl->null_obj){
+	if(start == NULL){
 		puts("start is null");
 		printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
 		*start_dp = new_item;
@@ -86,7 +86,7 @@ void table_print_debug(struct table *tbl, FILE *stream){
 	int i;
 	struct table_item *slot = malloc(sizeof(struct table_item *));
 	for(i=0; i < slots_num; i++){
-		if(*(tbl->slots+i) == tbl->null_obj){
+		if(tbl->slots+i == NULL){
 			fprintf(stream, "%d:is null\n", i);
 		}else{
 			fprintf(stream, "%d:items found\n", i);

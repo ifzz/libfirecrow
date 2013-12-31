@@ -7,7 +7,6 @@ struct table {
 	struct table_item **slots;
 	size_t size;/* items in hashtable */
 	int level;
-	struct table_item *null_obj;// address is used
 };
 
 struct table_item {
