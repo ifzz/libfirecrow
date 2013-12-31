@@ -32,18 +32,11 @@ struct table *table_alloc(){
 	tbl->level = 1;
 
 	size_t i;
-	struct table_item **slot = malloc(sizeof(struct table_item **));
-
-	puts("start of table alloc");
-	struct table_item **slots = malloc(sizeof(struct table_item **));
+	struct table_item **slot;
 	for(i=0; i < slots_num; i++){
 		slot = tbl->slots+i;
 		*slot = NULL;
 	}
-	/*
-	free(slot);
-	*/
-	puts(" end of table alloc");
 	return tbl;
 }
 
@@ -59,12 +52,9 @@ void table_add(struct table *tbl, char *key, char *item){
 	new_item->content = item;
 	new_item->next = NULL;
 
-	printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
 	struct table_item **start_dp = tbl->slots+new_item->bucket_key;
 	struct table_item *start = *start_dp;
 	if(start == NULL){
-		puts("start is null");
-		printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
 		*start_dp = new_item;
 		tbl->size++;
 	}else{
@@ -76,6 +66,19 @@ void table_add(struct table *tbl, char *key, char *item){
 	}
 }
 
+void *table_get(struct table *tbl, char *key){
+	int bucket_key = hash_key(tbl, key);
+	struct table_item *item;
+	item = *(tbl->slots+bucket_key);
+	while(item != NULL){
+		if(strcmp(key, item->key_val) == 0){
+			return item;
+		}
+		item = item->next;
+	}
+	return NULL;
+}
+
 #ifdef DEBUG 
 void table_print_debug(struct table *tbl, FILE *stream){
 	fprintf(stream, "<table p:%p size:%lu level:%d >\n", tbl, tbl->size, tbl->level);
@@ -84,19 +87,26 @@ void table_print_debug(struct table *tbl, FILE *stream){
 	slots_num = size_by_level(tbl->level);
 	fprintf(stream, "slots:%d\n", slots_num);
 	int i;
+	int first;
 	struct table_item *slot = malloc(sizeof(struct table_item *));
 	for(i=0; i < slots_num; i++){
-		if(tbl->slots+i == NULL){
-			fprintf(stream, "%d:is null\n", i);
+		if(*(tbl->slots+i) == NULL){
+			fprintf(stream, "%d\n", i);
 		}else{
-			fprintf(stream, "%d:items found\n", i);
+			fprintf(stream, "%d", i);
 			slot = tbl->slots[i];
-			fprintf(stream, " +");
+			first = 1;
 			while(slot != NULL){
-				fprintf(stream, "-- %s->%s ", slot->key_val, slot->content);
+				if(first){
+					first = 0;
+					fprintf(stream, " ");
+				}else{
+					fprintf(stream, ", ");
+				}
+				fprintf(stream, "%s->%s", slot->key_val, slot->content);
 				slot = slot->next;
 			}
-			fprintf(stream, "\n\n");
+			fprintf(stream, "\n");
 		}
 	}
 
@@ -108,6 +118,5 @@ void table_print_debug(struct table *tbl, FILE *stream){
 }
 #endif
 /*
-void *table_get(struct table *tbl, void *key);
 void *table_remove(struct table *tbl, void *key);
 */

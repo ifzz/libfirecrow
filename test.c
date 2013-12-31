@@ -176,6 +176,22 @@ int test_table(){
 
 	table_print_debug(tbl, stdout);
 
+	puts("--- testing get ---");
+	struct table_item *item = table_get(tbl, "hello");
+	if(item != NULL){
+		fprintf(stdout, "%s->%s\n", item->key_val, item->content);
+	}
+	struct table_item *item2 = table_get(tbl, "not here");
+	if(item2 != NULL){
+		fprintf(stdout, "%s->%s\n", item2->key_val, item2->content);
+	}else{
+		puts("item is null");
+	}
+	struct table_item *item3 = table_get(tbl, "bannana");
+	if(item3 != NULL){
+		fprintf(stdout, "%s->%s\n", item3->key_val, item3->content);
+	}
+
 	return 0;
 }
 
