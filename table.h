@@ -22,10 +22,11 @@ struct table *table_alloc();
 void table_free(struct table *tbl);
 
 void table_add(struct table *tbl, char *key, char *item);
+void table_add_item(struct table *tbl, struct table_item *item);
 void *table_get(struct table *tbl, char *key);
 void *table_remove(struct table *tbl, void *key);
 int hash_key(struct table *tbl, char *key);
-int table_increase_size(struct table *tbl);
+void table_increase_size(struct table *tbl);
 int size_by_level(int level);
 
 #ifdef DEBUG

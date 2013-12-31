@@ -11,8 +11,8 @@ int size_by_level(int level){
 
 /* todo: add level argumnet to this */
 int hash_key(struct table *tbl, char *key){
-	int pre_key = 0;	
-	int hash_num = START_LEVEL_SIZE;
+	int pre_key = 0;
+	int hash_num;
 	char *k = key;
 	while(*k != '\0'){
 		pre_key += *k;
@@ -22,22 +22,25 @@ int hash_key(struct table *tbl, char *key){
 	return pre_key % hash_num;
 }
 
+struct table_item **table_slots_alloc(int slots_num){
+	struct table_item **slots = (struct table_item **) malloc(sizeof(struct table_item *)* slots_num);
+	size_t i;
+	struct table_item **slot;
+	for(i=0; i < slots_num; i++){
+		slot = slots+i;
+		*slot = NULL;
+	}
+	return slots;
+}
+
 struct table *table_alloc(){
 	struct table *tbl;
 	tbl = (struct table *) malloc(sizeof(struct table));
-	int slots_num;
-	slots_num = size_by_level(tbl->level);
-	tbl->slots = (struct table_item **) malloc(sizeof(struct table_item *)* slots_num);
 	tbl->size = 0;
 	tbl->level = 1;
 	tbl->depth = 0;
 
-	size_t i;
-	struct table_item **slot;
-	for(i=0; i < slots_num; i++){
-		slot = tbl->slots+i;
-		*slot = NULL;
-	}
+	tbl->slots = table_slots_alloc(size_by_level(tbl->level)); 
 	return tbl;
 }
 
@@ -46,14 +49,26 @@ void table_free(struct table *tbl){
 	free(tbl);
 }
 
-int table_increase_size(struct table *tbl){
-	int level = tbl->level+1;
-	/*
-	allocate new slots
-	cpy pointer to old slots
-	replay all items into new slots
-	*/
-	return level;
+void table_increase_size(struct table *tbl){
+	tbl->depth = tbl->size =  0;
+	int slots_num = size_by_level(tbl->level);
+	tbl->level++;
+	struct table_item **old_slots = tbl->slots;
+	tbl->slots = table_slots_alloc(size_by_level(tbl->level));
+
+	int i;
+	int break_count = 0;
+	struct table_item *item;
+	for(i=0; i < slots_num; i++){
+		if(*(old_slots+i) != NULL){
+			item = old_slots[i];
+			while(item != NULL){
+				table_add(tbl, item->key_val, item->content);
+				item = item->next;
+			}
+		}
+	}
+	puts("done");
 }
 
 void table_add_item(struct table *tbl, struct table_item *item){
@@ -80,11 +95,11 @@ void table_add_item(struct table *tbl, struct table_item *item){
 	}
 }
 
-void table_add(struct table *tbl, char *key, char *item){
+void table_add(struct table *tbl, char *key, char *content){
 	struct table_item *new_item = (struct table_item *) malloc(sizeof(struct table_item));
 	new_item->key_val = key;
 	new_item->bucket_key = hash_key(tbl, key);
-	new_item->content = item;
+	new_item->content = content;
 	new_item->next = NULL;
 	table_add_item(tbl, new_item);
 }
@@ -111,7 +126,7 @@ void table_print_debug(struct table *tbl, FILE *stream){
 	fprintf(stream, "slots:%d\n", slots_num);
 	int i;
 	int first;
-	struct table_item *slot = malloc(sizeof(struct table_item *));
+	struct table_item *slot;
 	for(i=0; i < slots_num; i++){
 		if(*(tbl->slots+i) == NULL){
 			fprintf(stream, "%d\n", i);
