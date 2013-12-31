@@ -30,6 +30,7 @@ struct table *table_alloc(){
 	tbl->slots = (struct table_item **) malloc(sizeof(struct table_item *)* slots_num);
 	tbl->size = 0;
 	tbl->level = 1;
+	tbl->depth = 0;
 
 	size_t i;
 	struct table_item **slot;
@@ -45,25 +46,47 @@ void table_free(struct table *tbl){
 	free(tbl);
 }
 
+int table_increase_size(struct table *tbl){
+	int level = tbl->level+1;
+	/*
+	allocate new slots
+	cpy pointer to old slots
+	replay all items into new slots
+	*/
+	return level;
+}
+
+void table_add_item(struct table *tbl, struct table_item *item){
+	int depth = 1;
+	struct table_item **start_dp = tbl->slots+item->bucket_key;
+	struct table_item *start = *start_dp;
+	if(start == NULL){
+		*start_dp = item;
+		tbl->size++;
+	}else{
+		depth++;
+		while(start->next != NULL){
+			start = start->next;
+			depth++;
+		}
+		start->next = item;
+		tbl->size++;
+	}
+	if(tbl->depth < depth){
+		tbl->depth = depth;
+	}
+	if(tbl->depth > DEPTH_MARGIN){
+		table_increase_size(tbl);
+	}
+}
+
 void table_add(struct table *tbl, char *key, char *item){
 	struct table_item *new_item = (struct table_item *) malloc(sizeof(struct table_item));
 	new_item->key_val = key;
 	new_item->bucket_key = hash_key(tbl, key);
 	new_item->content = item;
 	new_item->next = NULL;
-
-	struct table_item **start_dp = tbl->slots+new_item->bucket_key;
-	struct table_item *start = *start_dp;
-	if(start == NULL){
-		*start_dp = new_item;
-		tbl->size++;
-	}else{
-		while(start->next != NULL){
-			start = start->next;
-		}
-		start->next = new_item;
-		tbl->size++;
-	}
+	table_add_item(tbl, new_item);
 }
 
 void *table_get(struct table *tbl, char *key){
@@ -81,7 +104,7 @@ void *table_get(struct table *tbl, char *key){
 
 #ifdef DEBUG 
 void table_print_debug(struct table *tbl, FILE *stream){
-	fprintf(stream, "<table p:%p size:%lu level:%d >\n", tbl, tbl->size, tbl->level);
+	fprintf(stream, "<table p:%p size:%lu level:%d depth:%d >\n", tbl, tbl->size, tbl->level, tbl->depth);
 	/* todo: add slots taken/available and total slot size */
 	int slots_num;
 	slots_num = size_by_level(tbl->level);

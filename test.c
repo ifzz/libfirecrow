@@ -173,6 +173,7 @@ int test_table(){
 	table_add(tbl, string_copy("bannana"), string_copy("split"));
 	table_add(tbl, string_copy("lash"), string_copy("O'Ninetails"));
 	table_add(tbl, string_copy("fire"), string_copy("crow"));
+	table_add(tbl, string_copy("denial"), string_copy("is hidden"));
 
 	table_print_debug(tbl, stdout);
 

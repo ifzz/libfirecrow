@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #define START_LEVEL_SIZE 7
+#define DEPTH_MARGIN 2 
 
 struct table {
 	struct table_item **slots;
 	size_t size;/* items in hashtable */
 	int level;
+	int depth;
 };
 
 struct table_item {
@@ -23,7 +25,7 @@ void table_add(struct table *tbl, char *key, char *item);
 void *table_get(struct table *tbl, char *key);
 void *table_remove(struct table *tbl, void *key);
 int hash_key(struct table *tbl, char *key);
-void table_resize(struct table *tbl, int size);
+int table_increase_size(struct table *tbl);
 int size_by_level(int level);
 
 #ifdef DEBUG
