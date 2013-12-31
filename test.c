@@ -140,6 +140,7 @@ int test_table(){
 	struct table *tbl;
 	tbl = table_alloc();
 	int hash = 0;
+	puts("--- testing hash ---");
 	hash = hash_key(tbl, "hi");
 	printf("result hi %d\n", hash);
 	hash = hash_key(tbl, "hello");
@@ -152,6 +153,21 @@ int test_table(){
 	printf("result what's dominence %d\n", hash);
 	hash = hash_key(tbl, "power up it's drinking time");
 	printf("result power up it's drinking time %d\n", hash);
+
+	puts("--- testing size by level ---");
+	printf("size by level 1:%d\n", size_by_level(1));
+	printf("size by level 2:%d\n", size_by_level(2));
+	printf("size by level 3:%d\n", size_by_level(3));
+
+	puts("--- testing values and add ---");
+	char *hello = (char *)malloc(sizeof(char)*6);
+	char tmp[] = "hello";
+	memmove(hello, tmp, 6);
+	char *there = (char *)malloc(sizeof(char)*6);
+	char tmp2[] = "there";
+	memmove(there, tmp2, 6);
+
+	table_add(tbl, hello, there);
 
 	table_print_debug(tbl, stdout);
 

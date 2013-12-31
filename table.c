@@ -1,30 +1,51 @@
 #include "table.h"
 
+int size_by_level(int level){
+	int start = 1;
+	int hash_num = START_LEVEL_SIZE;
+	while(start++ < level){
+		hash_num += START_LEVEL_SIZE;
+	}
+	return hash_num;
+}
+
 /* todo: add level argumnet to this */
 int hash_key(struct table *tbl, char *key){
 	int pre_key = 0;	
 	int hash_num = START_LEVEL_SIZE;
-	int start = 1;
 	char *k = key;
 	while(*k != '\0'){
 		pre_key += *k;
 		k++;
 	}
-	while(start++ < tbl->level){
-		hash_num += START_LEVEL_SIZE;
-	}
-	/*
-	printf("%d %d\n",pre_key, hash_num);
-	*/
+	hash_num = size_by_level(tbl->level); 
 	return pre_key % hash_num;
 }
 
 struct table *table_alloc(){
 	struct table *tbl;
 	tbl = (struct table *) malloc(sizeof(struct table));
-	tbl->slots = (struct table_item*) malloc(sizeof(struct table_item *)* START_LEVEL_SIZE);
+	int slots_num;
+	slots_num = size_by_level(tbl->level);
+	tbl->slots = (struct table_item **) malloc(sizeof(struct table_item *)* slots_num);
 	tbl->size = 0;
 	tbl->level = 1;
+	tbl->null_obj = (struct table_item *) malloc(sizeof(struct table_item));
+
+	size_t i;
+	struct table_item **slot = malloc(sizeof(struct table_item **));
+
+	puts("start of table alloc");
+	struct table_item **slots = malloc(sizeof(struct table_item **));
+	for(i=0; i < slots_num; i++){
+		slot = tbl->slots+i;
+		*slot = tbl->null_obj;
+	}
+	/*
+	free(slot);
+	*/
+	puts(" end of table alloc");
+	return tbl;
 }
 
 void table_free(struct table *tbl){
@@ -38,10 +59,13 @@ void table_add(struct table *tbl, char *key, void *item){
 	new_item->bucket_key = hash_key(tbl, key);
 	new_item->content = item;
 
-	struct table_item *start = (tbl->slots+new_item->bucket_key);
-	if(start == NULL){
-		start += new_item->bucket_key;
-		start = new_item;
+	printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
+	struct table_item **start_dp = tbl->slots+new_item->bucket_key;
+	struct table_item *start = *start_dp;
+	if(start == tbl->null_obj){
+		puts("start is null");
+		printf("--- allocating item into slot %d ---\n", (int)new_item->bucket_key);
+		*start_dp = new_item;
 		tbl->size++;
 	}else{
 		while(start->next != NULL){
@@ -56,6 +80,19 @@ void table_add(struct table *tbl, char *key, void *item){
 void table_print_debug(struct table *tbl, FILE *stream){
 	fprintf(stream, "<table p:%p size:%lu level:%d >\n", tbl, tbl->size, tbl->level);
 	/* todo: add slots taken/available and total slot size */
+	int slots_num;
+	slots_num = size_by_level(tbl->level);
+	fprintf(stream, "slots:%d\n", slots_num);
+	int i;
+	struct table_item *slot = malloc(sizeof(struct table_item *));
+	for(i=0; i < slots_num; i++){
+		if(*(tbl->slots+i) == tbl->null_obj){
+			fprintf(stream, "%d:is null %p:%lu:%lu\n", i, tbl->slots+i, (tbl->slots+i), (tbl->slots+i - tbl->slots));
+		}else{
+			slot = tbl->slots[i];
+			fprintf(stream, "%d:item found %p:%lu:%lu %s->%s\n", i, tbl->slots+i, (tbl->slots+i), (tbl->slots+i - tbl->slots), slot->key_val, slot->content);
+		}
+	}
 
 	/* table data */
 		/* climb slots */

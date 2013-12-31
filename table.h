@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define START_LEVEL_SIZE 7
 
 struct table {
-	struct table_item *slots;
-	size_t size;
+	struct table_item **slots;
+	size_t size;/* items in hashtable */
 	int level;
+	struct table_item *null_obj;// address is used
 };
 
 struct table_item {
-	void *content;
+	char *content;
 	char *key_val;
 	size_t bucket_key;
 	struct table_item *next;
@@ -23,6 +25,7 @@ void *table_get(struct table *tbl, char *key);
 void *table_remove(struct table *tbl, void *key);
 int hash_key(struct table *tbl, char *key);
 void table_resize(struct table *tbl, int size);
+int size_by_level(int level);
 
 #ifdef DEBUG
 void *print_table_debug(struct table *tbl, FILE *stream);
