@@ -53,7 +53,7 @@ void table_free(struct table *tbl){
 	free(tbl);
 }
 
-void table_add(struct table *tbl, char *key, void *item){
+void table_add(struct table *tbl, char *key, char *item){
 	struct table_item *new_item = (struct table_item *) malloc(sizeof(struct table_item));
 	new_item->key_val = key;
 	new_item->bucket_key = hash_key(tbl, key);
@@ -87,10 +87,16 @@ void table_print_debug(struct table *tbl, FILE *stream){
 	struct table_item *slot = malloc(sizeof(struct table_item *));
 	for(i=0; i < slots_num; i++){
 		if(*(tbl->slots+i) == tbl->null_obj){
-			fprintf(stream, "%d:is null %p:%lu:%lu\n", i, tbl->slots+i, (tbl->slots+i), (tbl->slots+i - tbl->slots));
+			fprintf(stream, "%d:is null\n", i);
 		}else{
+			fprintf(stream, "%d:items found\n", i);
 			slot = tbl->slots[i];
-			fprintf(stream, "%d:item found %p:%lu:%lu %s->%s\n", i, tbl->slots+i, (tbl->slots+i), (tbl->slots+i - tbl->slots), slot->key_val, slot->content);
+			fprintf(stream, " +");
+			while(slot != NULL){
+				fprintf(stream, "-- %s->%s ", slot->key_val, slot->content);
+				slot = slot->next;
+			}
+			fprintf(stream, "\n\n");
 		}
 	}
 

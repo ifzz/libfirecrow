@@ -11,8 +11,8 @@ struct table {
 };
 
 struct table_item {
-	char *content;
-	char *key_val;
+	char *content;/* can be anything */
+	char *key_val;/* must be null terminated C string */
 	size_t bucket_key;
 	struct table_item *next;
 };
@@ -20,7 +20,7 @@ struct table_item {
 struct table *table_alloc();
 void table_free(struct table *tbl);
 
-void table_add(struct table *tbl, char *key, void *item);
+void table_add(struct table *tbl, char *key, char *item);
 void *table_get(struct table *tbl, char *key);
 void *table_remove(struct table *tbl, void *key);
 int hash_key(struct table *tbl, char *key);

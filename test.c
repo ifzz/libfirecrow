@@ -135,6 +135,13 @@ int test_uarr(){
   return ret;
 }
 
+char *string_copy(char *str){
+	int len = strlen(str)+1;
+	char *dest = malloc(sizeof(char)*len);
+	memmove(dest, str, len); 
+	return dest;
+}
+
 int test_table(){
   write_cstr(1, ">>> table >>>\n");
 	struct table *tbl;
@@ -160,14 +167,12 @@ int test_table(){
 	printf("size by level 3:%d\n", size_by_level(3));
 
 	puts("--- testing values and add ---");
-	char *hello = (char *)malloc(sizeof(char)*6);
-	char tmp[] = "hello";
-	memmove(hello, tmp, 6);
-	char *there = (char *)malloc(sizeof(char)*6);
-	char tmp2[] = "there";
-	memmove(there, tmp2, 6);
 
-	table_add(tbl, hello, there);
+	table_add(tbl, string_copy("hello"), string_copy("there"));
+	table_add(tbl, string_copy("apple"), string_copy("tree"));
+	table_add(tbl, string_copy("bannana"), string_copy("split"));
+	table_add(tbl, string_copy("lash"), string_copy("O'Ninetails"));
+	table_add(tbl, string_copy("fire"), string_copy("crow"));
 
 	table_print_debug(tbl, stdout);
 
