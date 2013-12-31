@@ -9,7 +9,6 @@ int size_by_level(int level){
 	return hash_num;
 }
 
-/* todo: add level argumnet to this */
 int hash_key(struct table *tbl, char *key){
 	int pre_key = 0;
 	int hash_num;
@@ -68,7 +67,7 @@ void table_increase_size(struct table *tbl){
 			}
 		}
 	}
-	puts("done");
+	free(old_slots);
 }
 
 void table_add_item(struct table *tbl, struct table_item *item){

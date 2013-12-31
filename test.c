@@ -236,6 +236,10 @@ int test_table(){
 	if(item3 != NULL){
 		fprintf(stdout, "%s->%s\n", item3->key_val, item3->content);
 	}
+	struct table_item *item4 = table_get(tbl, "one");
+	if(item4 != NULL){
+		fprintf(stdout, "%s->%s\n", item4->key_val, item4->content);
+	}
 
 	return 0;
 }
