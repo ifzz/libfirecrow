@@ -89,7 +89,7 @@ void table_add_item(struct table *tbl, struct table_item *item){
 	if(tbl->depth < depth){
 		tbl->depth = depth;
 	}
-	if(tbl->depth > DEPTH_MARGIN){
+	if(((float)tbl->size / (float)size_by_level(tbl->level)) > MAX_RATIO){
 		table_increase_size(tbl);
 	}
 }

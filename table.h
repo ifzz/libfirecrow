@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define START_LEVEL_SIZE 7
-#define DEPTH_MARGIN 2 
+#define MAX_RATIO 0.5 
 
 struct table {
 	struct table_item **slots;
