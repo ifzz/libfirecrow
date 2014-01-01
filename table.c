@@ -4,7 +4,7 @@ int size_by_level(int level){
 	int start = 1;
 	int hash_num = START_LEVEL_SIZE;
 	while(start++ < level){
-		hash_num += START_LEVEL_SIZE;
+		hash_num *= 2;
 	}
 	return hash_num;
 }
@@ -35,7 +35,7 @@ struct table_item **table_slots_alloc(int slots_num){
 struct table *table_alloc(){
 	struct table *tbl;
 	tbl = (struct table *) malloc(sizeof(struct table));
-	tbl->size = 0;
+	tbl->count = 0;
 	tbl->level = 1;
 	tbl->depth = 0;
 
@@ -49,7 +49,7 @@ void table_free(struct table *tbl){
 }
 
 void table_increase_size(struct table *tbl){
-	tbl->depth = tbl->size =  0;
+	tbl->depth = tbl->count =  0;
 	int slots_num = size_by_level(tbl->level);
 	tbl->level++;
 	struct table_item **old_slots = tbl->slots;
@@ -76,7 +76,7 @@ void table_add_item(struct table *tbl, struct table_item *item){
 	struct table_item *start = *start_dp;
 	if(start == NULL){
 		*start_dp = item;
-		tbl->size++;
+		tbl->count++;
 	}else{
 		depth++;
 		while(start->next != NULL){
@@ -84,12 +84,12 @@ void table_add_item(struct table *tbl, struct table_item *item){
 			depth++;
 		}
 		start->next = item;
-		tbl->size++;
+		tbl->count++;
 	}
 	if(tbl->depth < depth){
 		tbl->depth = depth;
 	}
-	if(((float)tbl->size / (float)size_by_level(tbl->level)) > MAX_RATIO){
+	if(((float)tbl->count / (float)size_by_level(tbl->level)) > MAX_RATIO){
 		table_increase_size(tbl);
 	}
 }
@@ -118,7 +118,7 @@ void *table_get(struct table *tbl, char *key){
 
 #ifdef DEBUG 
 void table_print_debug(struct table *tbl, FILE *stream){
-	fprintf(stream, "<table p:%p size:%lu level:%d depth:%d >\n", tbl, tbl->size, tbl->level, tbl->depth);
+	fprintf(stream, "<table p:%p count:%lu level:%d depth:%d >\n", tbl, tbl->count, tbl->level, tbl->depth);
 	/* todo: add slots taken/available and total slot size */
 	int slots_num;
 	slots_num = size_by_level(tbl->level);

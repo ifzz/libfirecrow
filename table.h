@@ -6,7 +6,7 @@
 
 struct table {
 	struct table_item **slots;
-	size_t size;/* items in hashtable */
+	size_t count;/* items in hashtable */
 	int level;
 	int depth;
 };
